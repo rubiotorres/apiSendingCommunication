@@ -13,5 +13,8 @@ class SchedulingList(generics.RetrieveAPIView):
 class SchedulingCreate(generics.CreateAPIView):
     queryset = Scheduling.objects.all()
     serializer_class = SchedulingSerializer
-    filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = '__all__'
+
+
+class SchedulingDelete(generics.DestroyAPIView):
+    queryset = Scheduling.objects.all()
+    serializer_class = SchedulingSerializer
