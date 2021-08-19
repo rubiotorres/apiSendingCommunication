@@ -33,6 +33,7 @@ class SchedulingSearchList(generics.ListAPIView):
             'data': response.data
         })
 
+
 class SchedulingCreate(generics.CreateAPIView):
     queryset = Scheduling.objects.all()
     serializer_class = SchedulingSerializer
