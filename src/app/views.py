@@ -28,17 +28,10 @@ class SchedulingSearchList(generics.ListAPIView):
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)
-        if response.data:
-            return Response({
-                'status': 200,
-                'data': response.data
-            })
-        else:
-            return Response({
-                'status': 404,
-                'data': response.data
-            })
-
+        return Response({
+            'status': 200,
+            'data': response.data
+        })
 
 class SchedulingCreate(generics.CreateAPIView):
     queryset = Scheduling.objects.all()
