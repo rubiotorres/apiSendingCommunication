@@ -1,6 +1,7 @@
 from django_filters import rest_framework as filters
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework import status
 
 from .models import Scheduling
 from .serializers import SchedulingSerializer
@@ -42,7 +43,7 @@ class SchedulingCreate(generics.CreateAPIView):
         response = super().create(request, *args, **kwargs)
 
         return Response({
-            'status': 200,
+            'status': status.HTTP_200_OK,
             'message': 'Your message has been scheduled.',
             'data': response.data
         })
@@ -51,3 +52,10 @@ class SchedulingCreate(generics.CreateAPIView):
 class SchedulingDelete(generics.DestroyAPIView):
     queryset = Scheduling.objects.all()
     serializer_class = SchedulingSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        data = self.perform_destroy(instance)
+        return Response({
+            'status': status.HTTP_204_NO_CONTENT,
+            'message': 'Your message has been deleted.'})
