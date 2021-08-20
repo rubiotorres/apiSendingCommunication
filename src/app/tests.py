@@ -71,17 +71,9 @@ class ScheduleApiTestCase(TestCase):
         self.assertEqual(len(data['data']), 7)
 
     def test_delete_id(self):
-        response = self.client.get(
-            '/scheduling/search/'
-        )
-        print(response.content)
         response = self.client.delete(
             '/scheduling/delete/1'
         )
-        data = Scheduling.objects.get()
-        response = self.client.get(
-            '/scheduling/search/'
-        )
-        print(response.content)
+
         # Check that the response is 200 OK.
         self.assertEqual(response.status_code, 200)
