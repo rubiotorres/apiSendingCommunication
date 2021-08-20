@@ -74,12 +74,7 @@ class ScheduleApiTestCase(TestCase):
         response = self.client.delete(
             '/scheduling/delete/1'
         )
-        response = self.client.get(
-            '/scheduling/search/'
-        )
-        response_json = response.content.decode('utf8').replace("'", '"')
-        data = json.loads(response_json)
         # Check that the response is 200 OK.
-        self.assertEqual(response.status_code, 200)
-        # Check Number of responses.
-        self.assertEqual(len(data['data']), 0)
+        self.assertEqual(response.status_code, 204)
+        # Check for responses.
+        self.assertFalse(Scheduling.objects.all().exists())
