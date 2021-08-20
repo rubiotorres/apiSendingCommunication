@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'django_filters',
+    'rest_framework.authtoken',
     'rest_framework'
 ]
 
@@ -74,6 +75,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'api.wsgi.application'
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
 # Database
@@ -91,7 +95,7 @@ DATABASES = {
         'NAME': 'schedule',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': 'host.docker.internal',  # '127.0.0.1',   # Or an IP Address that your DB is hosted on
+        'HOST': '127.0.0.1',  # '127.0.0.1',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
         'CHARSET': 'utf8',
         'COLLATION': 'utf8_general_ci',

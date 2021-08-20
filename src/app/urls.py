@@ -1,3 +1,4 @@
+from rest_framework.authtoken.views import obtain_auth_token
 from django.conf.urls import url
 from . import views
 
@@ -6,4 +7,5 @@ urlpatterns = [
     url(r'^scheduling/search/$', views.SchedulingSearchList.as_view(), name='scheduling-list'),
     url(r'^scheduling/create/$', views.SchedulingCreate.as_view(), name='scheduling-create'),
     url(r'^scheduling/delete/(?P<pk>[0-9]+)$', views.SchedulingDelete.as_view(), name='scheduling-delete'),
+    url(r'^scheduling/api-token-auth/', obtain_auth_token, name='api_token_auth')
 ]

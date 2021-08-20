@@ -2,6 +2,7 @@ from django_filters import rest_framework as filters
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 from .models import Scheduling
 from .serializers import SchedulingSerializer
@@ -16,7 +17,7 @@ class SchedulingSearchId(generics.RetrieveAPIView):
         response = super().retrieve(request, *args, **kwargs)
 
         return Response({
-            'status': 200,
+            'status': status.HTTP_200_OK,
             'data': response.data
         })
 
@@ -26,11 +27,12 @@ class SchedulingSearchList(generics.ListAPIView):
     serializer_class = SchedulingSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('sender', 'date_send', 'receiver', 'message', 'date_entry', 'status')
+    permission_classes = (IsAuthenticated, )
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)
         return Response({
-            'status': 200,
+            'status': status.HTTP_200_OK,
             'data': response.data
         })
 
@@ -52,6 +54,7 @@ class SchedulingCreate(generics.CreateAPIView):
 class SchedulingDelete(generics.DestroyAPIView):
     queryset = Scheduling.objects.all()
     serializer_class = SchedulingSerializer
+    permission_classes = (IsAuthenticated, )
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
