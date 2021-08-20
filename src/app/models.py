@@ -8,6 +8,7 @@ class Scheduling(models.Model):
     class Meta:
         db_table = 'Scheduling'
 
+    id = models.AutoField(primary_key=True)
     date_entry = models.DateTimeField(auto_now_add=True, help_text="yyyy-mm-ddThh:mm:ssZ")
     sender = models.CharField(max_length=50)
     date_send = models.DateTimeField()
