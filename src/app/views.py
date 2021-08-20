@@ -51,9 +51,3 @@ class SchedulingCreate(generics.CreateAPIView):
 class SchedulingDelete(generics.DestroyAPIView):
     queryset = Scheduling.objects.all()
     serializer_class = SchedulingSerializer
-
-    def destroy(self, request, *args, **kwargs):
-        return Response({
-            'status': 200,
-            'message': 'Your message has been canceled.'
-        })
