@@ -95,7 +95,7 @@ DATABASES = {
         'NAME': 'schedule',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': '127.0.0.1',  # '127.0.0.1',   # Or an IP Address that your DB is hosted on
+        'HOST': 'host.docker.internal',  # '127.0.0.1',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
         'CHARSET': 'utf8',
         'COLLATION': 'utf8_general_ci',
