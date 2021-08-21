@@ -97,7 +97,7 @@ The decision to leave it authentication free was to make it easier for those who
 To use it we must use a GET request for the url example:
 
 ```
-curl --location --request GET 'http://localhost:8000/scheduling/search/<id>'
+curl --location --request GET 'http://localhost:8000/scheduling/status/<id>'
 ```
 
 ### GET: /scheduling/search/
