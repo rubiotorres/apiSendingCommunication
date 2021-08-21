@@ -53,13 +53,13 @@ GRANT ALL ON schedule.* TO 'user'@'localhost';
    #Create initial SuperUser to manager others users
    python manage.py createsuperuser
 
-   # Replace on `env.json` with a valid host and database, if you want run on docker with localhost use `host.docker.internal` as host
+   # Replace on `api/settings.py` with a valid host and database, if you want run on docker with localhost use `host.docker.internal` as host
    "database": {
-    "host": "host.docker.internal",
-    "port": "3306",
-    "usr": "root",
-    "pwd": "root",
-    "db": "schedule"
+         'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+   }
 
    # Run the Docker found at the root of the repository:
    $ docker-compose up --build
@@ -89,7 +89,7 @@ It is important to remember that all routes are browser-friendly and can be used
 
 The api has five endpoints:
 
-### GET: /scheduling/search/id/<id> 
+### GET: /scheduling/status/id/<id> 
 This endpoint is authentication-free and returns message status to whoever has the ID number.
 
 The decision to leave it authentication free was to make it easier for those who already have the ID.

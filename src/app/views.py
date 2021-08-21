@@ -17,8 +17,7 @@ class SchedulingSearchId(generics.RetrieveAPIView):
         response = super().retrieve(request, *args, **kwargs)
 
         return Response({
-            'status': status.HTTP_200_OK,
-            'data': response.data
+            'status': response.data['status']
         })
 
 
