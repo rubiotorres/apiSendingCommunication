@@ -51,11 +51,11 @@ GRANT ALL ON schedule.* TO 'user'@'localhost';
    $ git clone https://github.com/rubiotorres/apiSendingCommunication.git
    
    #Create initial SuperUser to manager others users
-   python manage.py createsuperuser
+   docker-compose run --rm web python .\manage.py createsuperuser
 
    # Replace on `api/settings.py` with a valid host and database, if you want run on docker with localhost use `host.docker.internal` as host
    "database": {
-         'USER': 'root',
+        'USER': 'root',
         'PASSWORD': 'root',
         'HOST': '127.0.0.1',
         'PORT': '3306',
@@ -74,7 +74,7 @@ This way you should navigate to and the folder 'apiSendingCommunication/src' and
 
 ```
 #Create initial SuperUser to manager others users
-python manage.py createsuperuser
+docker-compose run --rm web python .\manage.py createsuperuser
 ```
 This first user is the first system administrator, with him it is possible to enter the url below to add other users who will have different access, depending on the administrator's choice.
 
@@ -189,7 +189,7 @@ This API has some unit tests implemented in order to assess possible problems.
 To run this test you must navigate to the folder 'apiSendingCommunication/src' where you can run the command below:
 
 ```
-python manage.py test
+docker-compose run --rm web python .\manage.py test
 ```
 <h1></h1>
 
