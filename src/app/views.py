@@ -7,9 +7,12 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Scheduling
 from .serializers import SchedulingSerializer
 
-
+# A `view` receives an HTTP request through an endpoint and returns a response from the web.
 # Create your views here.
+
 class SchedulingSearchId(generics.RetrieveAPIView):
+    # Search for a scheduled message by ID.
+    # GET: /scheduling/status/id/<id>
     queryset = Scheduling.objects.all()
     serializer_class = SchedulingSerializer
 
@@ -22,6 +25,10 @@ class SchedulingSearchId(generics.RetrieveAPIView):
 
 
 class SchedulingSearchList(generics.ListAPIView):
+    # Search list of scheduled messages
+    # This endpoint supports filters 
+    # by fields via the url as per the documentation
+    # GET /scheduling/search/ 
     queryset = Scheduling.objects.all()
     serializer_class = SchedulingSerializer
     filter_backends = (filters.DjangoFilterBackend,)
@@ -37,6 +44,9 @@ class SchedulingSearchList(generics.ListAPIView):
 
 
 class SchedulingCreate(generics.CreateAPIView):
+    # Receive the message schedule
+    # POST: /scheduling/create/
+    # Receive a JSON in the message body
     queryset = Scheduling.objects.all()
     serializer_class = SchedulingSerializer
 
@@ -51,13 +61,15 @@ class SchedulingCreate(generics.CreateAPIView):
 
 
 class SchedulingDelete(generics.DestroyAPIView):
+    # DELETE a scheduled message by id
+    # DELETE /scheduling/delete/
     queryset = Scheduling.objects.all()
     serializer_class = SchedulingSerializer
     permission_classes = (IsAuthenticated, )
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        data = self.perform_destroy(instance)
+        self.perform_destroy(instance)
         return Response({
-            'status': status.HTTP_204_NO_CONTENT,
+            'status': status.HTTP_200_OK,
             'message': 'Your message has been deleted.'})

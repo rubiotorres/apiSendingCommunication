@@ -80,22 +80,16 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': BASE_DIR / 'db.sqlite3',
-#    }
-# }
+# Change USER,PASSWORD,HOST and PORT, for your database.
+# If you want use localhost outside of docker, change HOST to `localhost`
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'schedule',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': 'host.docker.internal',  # '127.0.0.1',   # Or an IP Address that your DB is hosted on
+        'HOST': 'localhost',  # '127.0.0.1',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
         'CHARSET': 'utf8',
         'COLLATION': 'utf8_general_ci',

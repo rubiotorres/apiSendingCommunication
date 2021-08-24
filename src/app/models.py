@@ -1,11 +1,21 @@
 from django.db import models
 
 
-# Create your models here.
+# A models is the skeleton of information about your data.
+# Each class that extends `models.Model` represents a table of its fields and behaviors.
 
 
 class Scheduling(models.Model):
+    # Scheduling Data Model
+    # id int: pk table
+    # date_entry datetime: Message entry date
+    # sender string: Name of the user who will send the message
+    # date_send string: Message sent date
+    # receiver string: Name of the user who will receive the message
+    # message string: Message to be sent
+    # status string: Message sending status
     class Meta:
+        # Table name for this template
         db_table = 'Scheduling'
 
     id = models.AutoField(primary_key=True)
