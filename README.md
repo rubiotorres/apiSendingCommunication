@@ -45,6 +45,20 @@ CREATE USER 'user'@'localhost' IDENTIFIED BY 'senha';
 GRANT ALL ON schedule.* TO 'user'@'localhost';
 ```
 
+## :gear: Installation requirements
+``` bash
+   # Clone the project:
+   $ git clone https://github.com/rubiotorres/apiSendingCommunication.git
+   
+   # Replace on `api/settings.py` with a valid host and database, if you want run on docker with localhost use `host.docker.internal` as host
+   "database": {
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+   }
+```
+
 ## How to authenticate
 To authenticate you must first do the step of creating the first user by migrate.
 This way you should navigate to and the folder 'apiSendingCommunication/src' and execute the command:
@@ -67,26 +81,10 @@ http://127.0.0.1:8000/admin/
 ```
 In this interface it is possible to browse with the administrator user, create groups, users and rules for the use of the api.
 
-## :gear: Installation requirements
+## Run project
 ``` bash
-   # Clone the project:
-   $ git clone https://github.com/rubiotorres/apiSendingCommunication.git
-   
-   #Create initial SuperUser to manager others users
-   docker-compose run --rm web python .\manage.py createsuperuser
-
-   # Replace on `api/settings.py` with a valid host and database, if you want run on docker with localhost use `host.docker.internal` as host
-   "database": {
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-   }
-
    # Run the Docker found at the root of the repository:
    $ docker-compose up --build
-  },
-
 ```
 At the end you will have a service running in backgroud.
 
