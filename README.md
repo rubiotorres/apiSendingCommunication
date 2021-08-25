@@ -2,13 +2,6 @@
    Django Api schedule - Basic API for scheduling messages
 </h1>
 
-<p align="center">
-  <a href="#page_with_curl-sobre">About</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#scroll-decisões-de-projeto">Project Decisions</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#books-requisitos">Requirements</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#gear-instalação-de-requisitos">Instalação</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-</p>
-
 ## :page_with_curl: About
 This repository contains an automation environment, written in python, being responsible for receiving message schedules and saving them in a database.
 
