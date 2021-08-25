@@ -8,5 +8,5 @@ class SchedulingSerializer(serializers.ModelSerializer):
     # read_only_fields list: List of required elements read-only
     class Meta:
         model = Scheduling
-        fields = ('id', 'sender', 'date_send', 'receiver', 'message','status')
+        fields = '__all__'
         read_only_fields = ('date_entry', 'status')

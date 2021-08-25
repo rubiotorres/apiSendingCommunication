@@ -6,6 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import Scheduling
 from .serializers import SchedulingSerializer
+from .validations import create_validator
+
 
 # A `view` receives an HTTP request through an endpoint and returns a response from the web.
 # Create your views here.
@@ -32,8 +34,8 @@ class SchedulingSearchList(generics.ListAPIView):
     queryset = Scheduling.objects.all()
     serializer_class = SchedulingSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('sender', 'date_send', 'receiver', 'message', 'date_entry', 'status')
-    permission_classes = (IsAuthenticated, )
+    filter_fields = '__all__'
+    permission_classes = (IsAuthenticated,)
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)
@@ -51,13 +53,19 @@ class SchedulingCreate(generics.CreateAPIView):
     serializer_class = SchedulingSerializer
 
     def create(self, request, *args, **kwargs):
-        response = super().create(request, *args, **kwargs)
-
-        return Response({
-            'status': status.HTTP_200_OK,
-            'message': 'Your message has been scheduled.',
-            'data': response.data
-        })
+        is_valid, response_message = create_validator(request)
+        if is_valid:
+            response = super().create(request, *args, **kwargs)
+            return Response({
+                'status': status.HTTP_201_CREATED,
+                'message': response_message,
+                'data': response.data
+            })
+        else:
+            return Response({
+                'status': status.HTTP_400_BAD_REQUEST,
+                'message': "Your message cannot be scheduled. {}".format(response_message),
+            })
 
 
 class SchedulingDelete(generics.DestroyAPIView):
@@ -65,7 +73,7 @@ class SchedulingDelete(generics.DestroyAPIView):
     # DELETE /scheduling/delete/
     queryset = Scheduling.objects.all()
     serializer_class = SchedulingSerializer
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
