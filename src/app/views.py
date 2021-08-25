@@ -1,8 +1,8 @@
 from django_filters import rest_framework as filters
 from rest_framework import generics
-from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from .models import Scheduling
 from .serializers import SchedulingSerializer
@@ -21,7 +21,7 @@ class SchedulingSearchId(generics.RetrieveAPIView):
     def retrieve(self, request, *args, **kwargs):
         response = super().retrieve(request, *args, **kwargs)
 
-        return Response({
+        return Response(status=status.HTTP_200_OK, data={
             'status': response.data['status']
         })
 
@@ -39,8 +39,7 @@ class SchedulingSearchList(generics.ListAPIView):
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)
-        return Response({
-            'status': status.HTTP_200_OK,
+        return Response(status=status.HTTP_200_OK, data={
             'data': response.data
         })
 
@@ -56,14 +55,12 @@ class SchedulingCreate(generics.CreateAPIView):
         is_valid, response_message = create_validator(request)
         if is_valid:
             response = super().create(request, *args, **kwargs)
-            return Response({
-                'status': status.HTTP_201_CREATED,
+            return Response(status=status.HTTP_201_CREATED, data={
                 'message': response_message,
                 'data': response.data
             })
         else:
-            return Response({
-                'status': status.HTTP_400_BAD_REQUEST,
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={
                 'message': "Your message cannot be scheduled. {}".format(response_message),
             })
 
@@ -78,6 +75,5 @@ class SchedulingDelete(generics.DestroyAPIView):
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
-        return Response({
-            'status': status.HTTP_200_OK,
+        return Response(status=status.HTTP_200_OK, data={
             'message': 'Your message has been deleted.'})

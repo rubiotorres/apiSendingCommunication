@@ -1,12 +1,12 @@
 import json
 from datetime import datetime, timedelta
-from django.test import TestCase
-from rest_framework.test import force_authenticate, APIRequestFactory, APIClient
-from rest_framework.authtoken.models import Token
+
 from django.contrib.auth.models import User
+from django.test import TestCase
+from rest_framework.authtoken.models import Token
+from rest_framework.test import force_authenticate, APIRequestFactory
 
 from . import views
-
 from .models import Scheduling
 
 create_julieta_push = {
@@ -73,7 +73,7 @@ class SchedulePostTestCase(TestCase):
 
         self.assertEqual(data["data"]["status"], "Scheduled")
         self.assertEqual(str(request.content_type), "application/json")
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 201)
 
     # Test a old date fail
     def test_post_fail_date(self):
@@ -90,7 +90,7 @@ class SchedulePostTestCase(TestCase):
         self.assertEqual(data['message'], 'Your message cannot be scheduled. Check that the scheduled date is not in '
                                           'the past.')
 
-        self.assertEqual(data['status'], 400)
+        self.assertEqual(response.status_code, 400)
 
     # Test create a email sender without email
     def test_post_fail_email(self):
@@ -104,7 +104,7 @@ class SchedulePostTestCase(TestCase):
         data = json.loads(response_json)
         self.assertEqual(data['message'], 'Your message cannot be scheduled. Please make sure you have entered the '
                                           'correct email address or change the submission type.')
-        self.assertEqual(data['status'], 400)
+        self.assertEqual(response.status_code, 400)
 
     # Test SMS sender without number
     def test_post_fail_number(self):
@@ -119,7 +119,7 @@ class SchedulePostTestCase(TestCase):
 
         self.assertEqual(data['message'], 'Your message cannot be scheduled. Please make sure you have entered the '
                                           'correct phone number or change the shipping type.')
-        self.assertEqual(data['status'], 400)
+        self.assertEqual(response.status_code, 400)
 
 
 class ScheduleGetTestCase(TestCase):

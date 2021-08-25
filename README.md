@@ -45,6 +45,28 @@ CREATE USER 'user'@'localhost' IDENTIFIED BY 'senha';
 GRANT ALL ON schedule.* TO 'user'@'localhost';
 ```
 
+## How to authenticate
+To authenticate you must first do the step of creating the first user by migrate.
+This way you should navigate to and the folder 'apiSendingCommunication/src' and execute the command:
+
+```
+# If you have modified something in the code or in the template you will need to run
+docker-compose run --rm web python .\manage.py makemigrations
+# Populate all necessary tables including users
+docker-compose run --rm web python .\manage.py migrate
+
+# But the dockerfile will do the above two commands for you, in case you forget.
+
+#Create initial SuperUser to manager others users
+docker-compose run --rm web python .\manage.py createsuperuser
+```
+This first user is the first system administrator, with him it is possible to enter the url below to add other users who will have different access, depending on the administrator's choice.
+
+```
+http://127.0.0.1:8000/admin/
+```
+In this interface it is possible to browse with the administrator user, create groups, users and rules for the use of the api.
+
 ## :gear: Installation requirements
 ``` bash
    # Clone the project:
@@ -68,78 +90,12 @@ GRANT ALL ON schedule.* TO 'user'@'localhost';
 ```
 At the end you will have a service running in backgroud.
 
-## How to authenticate
-To authenticate you must first do the step of creating the first user by migrate.
-This way you should navigate to and the folder 'apiSendingCommunication/src' and execute the command:
-
-```
-#Create initial SuperUser to manager others users
-docker-compose run --rm web python .\manage.py createsuperuser
-```
-This first user is the first system administrator, with him it is possible to enter the url below to add other users who will have different access, depending on the administrator's choice.
-
-```
-http://127.0.0.1:8000/admin/
-```
-In this interface it is possible to browse with the administrator user, create groups, users and rules for the use of the api.
 
 ## How to use
 
 It is important to remember that all routes are browser-friendly and can be used directly from the browser if you type using url.
 
 The api has five endpoints:
-
-### GET: /scheduling/status/id/<id> 
-This endpoint is authentication-free and returns message status to whoever has the ID number.
-
-The decision to leave it authentication free was to make it easier for those who already have the ID.
-
-To use it we must use a GET request for the url example:
-
-```
-curl --location --request GET 'http://localhost:8000/scheduling/status/<id>'
-```
-
-### GET: /scheduling/search/
-This endpoint is authenticated via token and returns the status of all registered messages.
-
-The decision to create it is for an administrator to have greater visualization of the data. It has been kept with authentication so that outsiders cannot access all messages.
-
-To use it we must use a GET request for the url:
-
-```
-curl --location --request GET 'http://localhost:8000/scheduling/search/<id>' \
---header 'Authorization: Token <token>'
-```
-### POST: /scheduling/create/
-
-This endpoint is authentication free and schedules the message.
-
-The decision to leave authentication free was to facilitate message creation.
-
-The endpoint expects a JSON in its body like:
-
-```
-{
-   "sender": "<sender>",
-   "date_send": "yyyy-mm-ddThh:mm:ssZ",
-   "receiver": "<receiver>",
-   "message": "<message>"
-}
-```
-
-To use it, we must use a POST request for the url example:
-
-```
-curl --location --request POST 'http://localhost:8000/scheduling/create/' \
---header 'Content-Type: application/json' \
---data-raw '{
-   "sender": "<sender>",
-   "date_send": "yyyy-mm-ddThh:mm:ssZ",
-   "receiver": "<receiver>",
-   "message": "<message>"
-}'
-```
 
 ### POST: /scheduling/api-token-auth/
 
@@ -167,7 +123,69 @@ curl --location --request POST 'http://localhost:8000/scheduling/api-token-auth/
 }'
 ```
 
-Remembering that to use this one, the user must be registered as shown in previous topics.
+Remembering that to use this one, the user must be registered as shown in future topics.
+
+### GET: /scheduling/status/id/<id> 
+This endpoint is authentication-free and returns message status to whoever has the ID number.
+
+The decision to leave it authentication free was to make it easier for those who already have the ID.
+
+To use it we must use a GET request for the url example:
+
+```
+curl --location --request GET 'http://localhost:8000/scheduling/status/<id>'
+```
+
+### GET: /scheduling/search/
+This endpoint is authenticated via token and returns the status of all registered messages.
+
+The decision to create it is for an administrator to have greater visualization of the data. It has been kept with authentication so that outsiders cannot access all messages.
+
+To use it we must use a GET request for the url:
+
+```
+curl --location --request GET 'http://localhost:8000/scheduling/search/' \
+--header 'Authorization: Token <token>'
+```
+### POST: /scheduling/create/
+
+This endpoint is authentication free and schedules the message.
+
+The decision to leave authentication free was to facilitate message creation.
+
+The endpoint expects a JSON in its body like:
+
+Fields email_to_send and phone_to_send can be left blank, however, if the type of sending is email, it is necessary to send the sender's email, if it is SMS or Whatsapp it is necessary to send the phone number.
+
+The date field is checked so that there is no past date.
+
+```
+{
+    "type": ["Push"|"Whatsapp"|"SMS"|"Email"],
+    "name_sender": "<sender>",
+    "date_send": "2027-09-03T11:38:00Z",
+    "message": "<message>",
+    "name_to_send": "<receiver>"
+    "email_to_send": "xxx@xxx",
+    "phone_to_send": "xxxxxxxxx"
+}
+```
+
+To use it, we must use a POST request for the url example:
+
+```
+curl --location --request POST 'http://localhost:8000/scheduling/create/' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "type": ["Push"|"Whatsapp"|"SMS"|"Email"],
+    "name_sender": "<sender>",
+    "date_send": "2027-09-03T11:38:00Z",
+    "message": "<message>",
+    "name_to_send": "<receiver>"
+    "email_to_send": "xxx@xxx",
+    "phone_to_send": "xxxxxxxxx"
+}'
+```
 
 ## DELETE: /scheduling/delete/
 

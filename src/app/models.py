@@ -1,4 +1,5 @@
 from django.db import models
+
 from .validations import phone_regex_validation, return_type_choices
 
 
@@ -39,4 +40,5 @@ class Scheduling(models.Model):
                                      null=True, blank=True)
 
     def __str__(self):
-        return "This message is going from {} to {}.\n Day: {}".format(self.name_sender, self.name_to_send, self.date_send)
+        return "This message is going from {} to {}.\n Day: {}".format(self.name_sender, self.name_to_send,
+                                                                       self.date_send)
