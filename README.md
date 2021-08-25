@@ -66,10 +66,14 @@ This way you should navigate to and the folder 'apiSendingCommunication/src' and
 ```
 # If you have modified something in the code or in the template you will need to run
 docker-compose run --rm web python .\manage.py makemigrations
+
 # Populate all necessary tables including users
 docker-compose run --rm web python .\manage.py migrate
 
-# But the dockerfile will do the above two commands for you, in case you forget.
+# If the schedule table is not generated you can run the code below and run migrate again
+docker-compose run --rm web python .\manage.py makemigrations app
+
+# But the dockerfile will do the above three commands for you, in case you forget.
 
 #Create initial SuperUser to manager others users
 docker-compose run --rm web python .\manage.py createsuperuser
